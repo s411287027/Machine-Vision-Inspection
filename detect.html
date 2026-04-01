@@ -65,102 +65,89 @@ function startCamera() {
 }
 
 function processVideo() {
-    let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
+    // 確保影像矩陣與視訊解析度一致
+    let src = new cv.Mat(video.videoHeight, video.videoWidth, cv.CV_8UC4);
     let cap = new cv.VideoCapture(video);
 
     function process() {
         try {
             cap.read(src);
             let frame = src.clone();
-            let totalPips = 0;
-
-            // 1. 計算 ROI
+            
+            // 建立 ROI 區域
             let h = frame.rows;
             let w = frame.cols;
-            let cy = Math.floor(h / 2);
-            let cx = Math.floor(w / 2);
-            let halfSize = ROI_SIZE / 2;
-            let x1 = Math.max(0, cx - halfSize);
-            let y1 = Math.max(0, cy - halfSize);
-
-            let rect = new cv.Rect(x1, y1, ROI_SIZE, ROI_SIZE);
+            let x1 = Math.floor(w / 2 - ROI_SIZE / 2);
+            let y1 = Math.floor(h / 2 - ROI_SIZE / 2);
+            
+            // 防呆機制：確保 ROI 不會超出邊界
+            let rect = new cv.Rect(
+                Math.max(0, x1), 
+                Math.max(0, y1), 
+                Math.min(ROI_SIZE, w - x1), 
+                Math.min(ROI_SIZE, h - y1)
+            );
+            
             let roi = frame.roi(rect);
-
-            // 2. 預處理 (Gray -> Blur -> Adaptive Threshold)
             let gray = new cv.Mat();
-            cv.cvtColor(roi, gray, cv.COLOR_RGBA2GRAY);
             let blurred = new cv.Mat();
-            cv.GaussianBlur(gray, blurred, new cv.Size(5, 5), 0);
             let thresh = new cv.Mat();
+
+            // 影像處理流程
+            cv.cvtColor(roi, gray, cv.COLOR_RGBA2GRAY); 
+            cv.GaussianBlur(gray, blurred, new cv.Size(5, 5), 0);
+            
+            // 這裡可以嘗試將 5 調整為 7 或 9，增加雜訊容忍度
             cv.adaptiveThreshold(blurred, thresh, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 35, 5);
 
-            // 3. 找輪廓
             let contours = new cv.MatVector();
             let hierarchy = new cv.Mat();
             cv.findContours(thresh, contours, hierarchy, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE);
 
+            let totalPips = 0;
             if (hierarchy.size() > 0) {
                 for (let i = 0; i < contours.size(); ++i) {
                     let cnt = contours.get(i);
                     let area = cv.contourArea(cnt);
 
-                    // 判斷骰子本體
+                    // 這裡的面積門檻可能要根據網頁縮放程度微調
                     if (area > MIN_DICE_AREA && area < MAX_DICE_AREA) {
-                        // 取得階層資訊 [Next, Previous, First_Child, Parent]
                         let hInfo = hierarchy.intPtr(0, i);
-                        let firstChildIdx = hInfo[2];
+                        let firstChildIdx = hInfo[2]; // 找到子輪廓 (點數)
 
                         if (firstChildIdx !== -1) {
                             let pipCount = 0;
                             let childIdx = firstChildIdx;
-
                             while (childIdx !== -1) {
                                 let childCnt = contours.get(childIdx);
                                 let childArea = cv.contourArea(childCnt);
-
                                 if (childArea > MIN_PIP_AREA && childArea < MAX_PIP_AREA) {
                                     let perimeter = cv.arcLength(childCnt, true);
                                     let circularity = (4 * Math.PI * childArea) / (perimeter * perimeter);
-
-                                    if (circularity > CIRCULARITY_THRESHOLD) {
+                                    if (circularity > 0.45) {
                                         pipCount++;
-                                        // 畫點數 (綠色)
-                                        let color = new cv.Scalar(0, 255, 0, 255);
-                                        cv.drawContours(roi, contours, childIdx, color, -1);
                                     }
                                 }
-                                childIdx = hierarchy.intPtr(0, childIdx)[0]; // Next sibling
+                                childIdx = hierarchy.intPtr(0, childIdx)[0]; 
                             }
-
-                            if (pipCount >= 1 && pipCount <= 6) {
-                                totalPips += pipCount;
-                                let boundRect = cv.boundingRect(cnt);
-                                let colorBlue = new cv.Scalar(255, 0, 0, 255);
-                                cv.rectangle(roi, new cv.Point(boundRect.x, boundRect.y), 
-                                             new cv.Point(boundRect.x + boundRect.width, boundRect.y + boundRect.height), 
-                                             colorBlue, 2);
-                            }
+                            if (pipCount >= 1 && pipCount <= 6) totalPips += pipCount;
                         }
                     }
                 }
             }
 
-            // 更新 UI
+            // 更新顯示
             document.getElementById('pipTotal').innerText = totalPips;
-
-            // 畫出 ROI 黃色框
-            cv.rectangle(frame, new cv.Point(x1, y1), new cv.Point(x1 + ROI_SIZE, y1 + ROI_SIZE), new cv.Scalar(255, 255, 0, 255), 2);
-
-            // 顯示結果
+            cv.rectangle(frame, new cv.Point(x1, y1), new cv.Point(x1 + ROI_SIZE, y1 + ROI_SIZE), [255, 255, 0, 255], 2);
             cv.imshow('canvasOutput', frame);
 
-            // 釋放記憶體
+            // 釋放記憶體 (極重要，否則瀏覽器會當機)
             gray.delete(); blurred.delete(); thresh.delete(); 
             contours.delete(); hierarchy.delete(); roi.delete(); frame.delete();
 
             requestAnimationFrame(process);
         } catch (err) {
-            console.error(err);
+            console.error("處理錯誤:", err);
         }
     }
     process();
