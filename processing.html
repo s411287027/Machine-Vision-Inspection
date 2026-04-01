@@ -39,36 +39,49 @@
     </ul>
   </nav>
 
-  <section class="content-section">
+  <section class="content-section" style="margin-top: 40px;">
     <div class="container">
-        <h2 class="section-title">影像處理技術概論</h2>
+        <h2 class="section-title">核心影像處理演算法</h2>
         
         <div class="info-card">
-            <h3>經典處理流程 (Pipeline)</h3>
-            <p>大多數機器視覺任務都會遵循以下線性流程：</p>
+            <h3>一、影像數位化與預處理</h3>
+            <p>機器視覺系統首先將類比影像轉化為數位矩陣。透過分析<strong>灰階直方圖 (Histogram)</strong>，我們可以了解影像亮度的分佈，作為後續設定二值化門檻的依據。常見的預處理包含：</p>
+            <ul>
+                <li><strong>平滑濾波：</strong>如高斯濾波，用於減少影像高頻雜訊。</li>
+                <li><strong>中值濾波：</strong>有效去除胡椒鹽 (Salt-and-Pepper) 雜訊，且能保護邊緣。</li>
+            </ul>
+        </div>
+
+        <div class="info-card" style="border-left: 5px solid #007bff; background-color: #f0f8ff;">
+            <h3>二、專題實務：骰子特徵提取 Pipeline</h3>
+            <p>在骰子辨識專案中，每一幀影像都經過以下嚴謹的處理階段：</p>
+            
             <div class="tech-grid">
                 <div>
-                    <span class="step-number">1</span><strong>預處理 (Preprocessing)</strong>
-                    <p>包含灰階化、去噪（均值/高斯濾波）、直方圖均衡化，目的是提升影像品質。</p>
+                    <strong>1. 灰階與高斯模糊</strong>
+                    <p>使用 <code>cv2.cvtColor</code> 轉為灰階，並套用 <code>(5, 5)</code> 的高斯模糊核，消除骰子表面的微小雜點。</p>
                 </div>
                 <div>
-                    <span class="step-number">2</span><strong>特徵提取 (Feature Extraction)</strong>
-                    <p>利用邊緣檢測（如 Sobel, Canny）或輪廓尋找技術定位目標物。</p>
+                    <strong>2. 自適應二值化</strong>
+                    <p>捨棄全域門檻，改用 <code>cv2.adaptiveThreshold</code>。參數設定 <code>BlockSize=35, C=5</code>，完美克服了骰子左右兩側受光不均的陰影問題。</p>
                 </div>
                 <div>
-                    <span class="step-number">3</span><strong>形態學處理 (Morphology)</strong>
-                    <p>使用「侵蝕」與「擴張」來修補二值影像中的空洞或斷開部分。</p>
+                    <strong>3. 輪廓層級分析</strong>
+                    <p>利用 <code>cv2.RETR_TREE</code> 建立父子樹狀結構。系統能精準識別出「點數輪廓（子）」是包覆在「骰子邊界（父）」之內。</p>
                 </div>
             </div>
         </div>
-        
 
         <div class="info-card">
-            <h3>為什麼需要二值化？</h3>
-            <p>二值化（Thresholding）是將影像轉化為黑白兩色的過程，這能極大地簡化數據量，讓電腦能快速計算物體的面積、重心與形狀特徵。</p>
+            <h3>三、形態學與幾何特徵過濾</h3>
+            <p>為了排除背景雜訊被誤判為骰子點數，專案導入了<strong>圓度 (Circularity)</strong> 過濾技術：</p>
+            <div class="formula-card">
+                $$Circularity = \frac{4\pi \times Area}{Perimeter^2}$$
+            </div>
+            <p>在程式碼實作中，當輪廓圓度 <strong>> 0.45</strong> 時，系統才會將其確認為有效的圓形點數特徵。</p>
         </div>
     </div>
-  </section>
+</section>
 
   <script src="script.js"></script>
 </body>

@@ -11,7 +11,7 @@ body {
     font-family: 'Noto Sans TC', 'Nunito', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--bg-color);
+    background-color: #eff0f1;
     color: var(--text-color);
     line-height: 1.6;
     padding-top: var(--nav-height); 
@@ -217,12 +217,19 @@ footer {
 }
 
 .info-card {
-    background: #fff;
+    background-color: #ffffff; /* 確保卡片是純白色 */
+    border: 1px solid #e0e0e0; /* 加上極淺的灰色邊框 */
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* 放大陰影範圍，但顏色放輕 */
     padding: 30px;
     margin-bottom: 30px;
-    border-left: 5px solid var(--nav-bg); /* 使用導覽列深色作為點綴 */
+    border-left: 5px solid var(--nav-bg); /* 保留原本的左側裝飾線 */
+}
+
+.info-card:hover {
+    transform: translateY(-5px); /* 卡片微幅上移 */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* 陰影變得更大更深 */
+    transition: all 0.3s ease; /* 讓動畫過渡更滑順 */
 }
 
 .info-card h3 {
@@ -320,4 +327,191 @@ footer {
     margin: 10px auto;    /* 置中對齊，並保有上下間距 */
     border-radius: 8px;   /* 選擇性：加上圓角讓視覺更柔和 */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 選擇性：加上淡淡的陰影增加質感 */
+}
+
+.spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: #fff;
+}
+.spec-table th, .spec-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+.spec-table th {
+    background-color: var(--nav-bg);
+    color: white;
+}
+.formula-card {
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin: 20px 0;
+    border: 1px solid #ddd;
+}
+.highlight-text {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+/* ==========================================
+   全新模組標頭 (Dashboard Style Hero)
+   ========================================== */
+.module-hero-card {
+    position: relative;
+    background: #ffffff;
+    max-width: 1100px; /* 限制最大寬度，避免左右拉太開 */
+    margin: 40px auto;
+    padding: 50px 40px;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04); /* 高級的超柔和陰影 */
+    border: 1px solid #f1f5f9;
+    overflow: hidden;
+}
+
+/* 現代科技感：點陣背景 */
+.module-hero-bg-dots {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.relative-z {
+    position: relative;
+    z-index: 2;
+}
+
+/* 麵包屑美化 */
+.breadcrumb {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 25px;
+    color: #94a3b8;
+}
+.breadcrumb a {
+    color: #475569;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.breadcrumb a:hover { color: #475569; }
+.breadcrumb .divider { margin: 0 8px; color: #cbd5e1; }
+.breadcrumb .current { color: #475569; }
+
+/* 左右排版對齊 */
+.module-hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero-text-area {
+    flex: 1;
+}
+
+/* 精緻的小標籤 */
+.tech-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
+    color: #3b82f6;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+    border: 1px solid #bfdbfe;
+}
+
+/* 標題與漸層文字 */
+.page-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 15px 0;
+    line-height: 1.2;
+}
+.gradient-text {
+    background: linear-gradient(135deg, #2563eb, #8b5cf6); /* 藍轉紫的漸層 */
+    -webkit-background-clip: text; /* 針對 WebKit 核心瀏覽器 */
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.page-subtitle {
+    font-size: 1.15rem;
+    color: #64748b;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0;
+}
+
+/* --- 右側數據卡片區 --- */
+.hero-stats-area {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 280px;
+}
+
+.stat-mini-card {
+    display: flex;
+    align-items: center;
+    background: #f8fafc;
+    padding: 16px 20px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+.stat-mini-card:hover {
+    transform: translateX(-5px); /* 滑鼠游標移過去會往左浮動 */
+    background: #ffffff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: #cbd5e1;
+}
+
+.stat-icon {
+    font-size: 2rem;
+    margin-right: 15px;
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+/* 手機版適應 */
+@media (max-width: 850px) {
+    .module-hero-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .hero-stats-area {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .stat-mini-card { flex: 1; min-width: 200px; }
 }
