@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>影像處理 - 機器視覺檢測</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">機器視覺檢測</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="module.html">取像模組</a></li>
+      <li><a href="processing.html">影像處理</a></li>
+      <li><a href="application.html">檢測應用</a></li>
+      <li class="dropdown">
+        <a href="report.html" class="dropdown-toggle">專題報告 <span>▼</span></a>
+        <ul class="dropdown-menu">
+          <li><a href="report.html#item1">檢測物件</a></li>
+          <li><a href="report.html#item2">檢測方法</a></li>
+          <li><a href="report.html#item3">檢測流程</a></li>
+          <li><a href="report.html#item4">影像處理</a></li>
+          <li><a href="report.html#item5">檢測結果</a></li>
+          <li><a href="report.html#item6">專題應用</a></li>
+          <li><a href="report.html#item7">課程相關</a></li>
+          <li><a href="report.html#item8">心得&貢獻</a></li>
+          <li><a href="report.html#item9">參考資料</a></li>
+          </ul>
+      </li>
+      <li><a href="#search" class="search-icon">🔍</a></li>
+    </ul>
+  </nav>
+
+  <section class="content-section">
+    <div class="container">
+        <h2 class="section-title">影像處理技術概論</h2>
+        
+        <div class="info-card">
+            <h3>經典處理流程 (Pipeline)</h3>
+            <p>大多數機器視覺任務都會遵循以下線性流程：</p>
+            <div class="tech-grid">
+                <div>
+                    <span class="step-number">1</span><strong>預處理 (Preprocessing)</strong>
+                    <p>包含灰階化、去噪（均值/高斯濾波）、直方圖均衡化，目的是提升影像品質。</p>
+                </div>
+                <div>
+                    <span class="step-number">2</span><strong>特徵提取 (Feature Extraction)</strong>
+                    <p>利用邊緣檢測（如 Sobel, Canny）或輪廓尋找技術定位目標物。</p>
+                </div>
+                <div>
+                    <span class="step-number">3</span><strong>形態學處理 (Morphology)</strong>
+                    <p>使用「侵蝕」與「擴張」來修補二值影像中的空洞或斷開部分。</p>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="info-card">
+            <h3>為什麼需要二值化？</h3>
+            <p>二值化（Thresholding）是將影像轉化為黑白兩色的過程，這能極大地簡化數據量，讓電腦能快速計算物體的面積、重心與形狀特徵。</p>
+        </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

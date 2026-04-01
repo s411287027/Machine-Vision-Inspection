@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>取像模組 - 機器視覺檢測</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">機器視覺檢測</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="module.html">取像模組</a></li>
+      <li><a href="processing.html">影像處理</a></li>
+      <li><a href="application.html">檢測應用</a></li>
+      <li class="dropdown">
+        <a href="report.html" class="dropdown-toggle">專題報告 <span>▼</span></a>
+        <ul class="dropdown-menu">
+          <li><a href="report.html#item1">檢測物件</a></li>
+          <li><a href="report.html#item2">檢測方法</a></li>
+          <li><a href="report.html#item3">檢測流程</a></li>
+          <li><a href="report.html#item4">影像處理</a></li>
+          <li><a href="report.html#item5">檢測結果</a></li>
+          <li><a href="report.html#item6">專題應用</a></li>
+          <li><a href="report.html#item7">課程相關</a></li>
+          <li><a href="report.html#item8">心得&貢獻</a></li>
+          <li><a href="report.html#item9">參考資料</a></li>
+          </ul>
+      </li>
+      <li><a href="#search" class="search-icon">🔍</a></li>
+    </ul>
+  </nav>
+
+  <section class="content-section">
+    <div class="container">
+        <h2 class="section-title">取像模組：工業視覺的眼睛</h2>
+        
+        <div class="info-card">
+            <h3>核心組成元件</h3>
+            <p>一個標準的機器視覺取像系統由以下三個核心部分組成：</p>
+            <div class="tech-grid">
+                <div>
+                    <strong>1. 工業相機 (Camera)</strong>
+                    <p>區分為 CCD 與 CMOS 感光元件。工業相機強調高幀率與穩定傳輸，與一般民用相機不同。</p>
+                </div>
+                <div>
+                    <strong>2. 光學鏡頭 (Lens)</strong>
+                    <p>負責將物體影像投射到感光元件上。需考慮焦距 (Focal Length) 與光圈大小。</p>
+                </div>
+                <div>
+                    <strong>3. 光源系統 (Lighting)</strong>
+                    <p>良好的打光能大幅降低演算法難度。常見有環形光、背光、同軸光等。</p>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="info-card" style="border-left: 5px solid #555;">
+            <h3>打光技術的重要性</h3>
+            <p>在機器視覺中，打光的目的是<strong>「創造對比度」</strong>。例如，要檢測金屬表面的刮痕，通常使用低角度的環形光來凸顯瑕疵輪廓。</p>
+        </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

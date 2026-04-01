@@ -3,143 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cozy Study Corner</title>
+  <title>機器視覺檢測 - 首頁</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
   <nav class="navbar">
-    <div class="logo">Machine Vision Inspection</div>
+    <div class="logo">機器視覺檢測</div>
     <div class="hamburger" onclick="toggleMenu()">
       <span></span>
       <span></span>
       <span></span>
     </div>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#home" onclick="toggleMenu()">首頁</a></li>
-      <li><a href="#concept" onclick="toggleMenu()">設計理念</a></li>
-      <li><a href="#features" onclick="toggleMenu()">功能特色</a></li>
-      <li><a href="#video-showcase" onclick="toggleMenu()">介紹影片</a></li>
-      <li><a href="#gallery" onclick="toggleMenu()">遊戲畫面</a></li>
-      <li><a href="#download" onclick="toggleMenu()">立即下載</a></li>
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="module.html">取像模組</a></li>
+      <li><a href="processing.html">影像處理</a></li>
+      <li><a href="application.html">檢測應用</a></li>
+      
+      <li class="dropdown">
+        <a href="report.html" class="dropdown-toggle">專題報告 <span>▼</span></a>
+        <ul class="dropdown-menu">
+          <li><a href="report.html#item1">檢測物件</a></li>
+          <li><a href="report.html#item2">檢測方法</a></li>
+          <li><a href="report.html#item3">檢測流程</a></li>
+          <li><a href="report.html#item4">影像處理</a></li>
+          <li><a href="report.html#item5">檢測結果</a></li>
+          <li><a href="report.html#item6">專題應用</a></li>
+          <li><a href="report.html#item7">課程相關</a></li>
+          <li><a href="report.html#item8">心得&貢獻</a></li>
+          <li><a href="report.html#item9">參考資料</a></li>
+        </ul>
+      </li>
+      <li><a href="detect.html">程式實作</a></li>
+      <li><a href="#search" class="search-icon">🔍</a></li>
     </ul>
   </nav>
 
   <section id="home" class="hero-section">
     <div class="hero-content">
-      <h1>打造屬於你的<br>溫馨專注空間</h1>
-      <p class="hero-subtitle">由 Team CAT 開發<br>結合虛擬陪伴與遊戲化的專注 App</p>
-      <a href="#download" class="cta-btn">開始佈置你的房間</a>
+      <h1>機器視覺檢測</h1>
     </div>
   </section>
 
-  <section id="concept" class="content-section">
-    <div class="container">
-      <h2 class="section-title">為什麼選擇我們？</h2>
-      <div class="concept-grid">
-        <div class="concept-card">
-          <h3>🚫 無鏡頭壓力</h3>
-          <p>不用擔心隱私曝光，使用可愛的虛擬角色代替真人鏡頭，讓你在放鬆的狀態下專注</p>
-        </div>
-        <div class="concept-card">
-          <h3>🐈 虛擬陪伴感</h3>
-          <p>同一個場景裡的夥伴都在努力，雖然不說話，但你知道你並不孤單</p>
-        </div>
-      </div>
+  <section class="content-section">
+    <div class="container" style="text-align: center; margin-top: 40px;">
+      <img src="screenshots/presentation_slide.jpg" alt="綠能光電元件 - 矽晶太陽能電池 之品質檢測" style="max-width: 100%; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
     </div>
   </section>
-
-  <section id="features" class="content-section alternate-bg">
-    <div class="container">
-      <h2 class="section-title">產品特色</h2>
-      <div class="feature-list">
-        
-        <div class="feature-item">
-          <div class="feature-text">
-            <h3>01. 多樣場景切換</h3>
-            <p>無論是安靜的圖書館、溫馨的教室，還是愜意的咖啡廳。選擇你最喜歡的環境，與他人一起專注</p>
-          </div>
-          <div class="feature-img"><img src="screenshots/image_1.png" alt="教室場景"></div>
-        </div>
-
-        <div class="feature-item reverse">
-          <div class="feature-text">
-            <h3>02. 遊戲化獎勵機制</h3>
-            <p>專注時間轉換為金幣！解鎖更多可愛的衣服、家具裝飾。看著房間變漂亮，學習更有動力</p>
-          </div>
-          <div class="feature-img"><img src="screenshots/image_2.png" alt="換裝系統"></div>
-        </div>
-
-        <div class="feature-item">
-          <div class="feature-text">
-            <h3>03. 輕量暖心互動</h3>
-            <p>透過「便利貼」給予夥伴鼓勵。沒有即時聊天的社交壓力，只有純粹的溫暖與支持</p>
-          </div>
-          <div class="feature-img"><img src="screenshots/image_3.png" alt="房間與便利貼"></div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section id="video-showcase" class="content-section">
-    <div class="container">
-      <h2 class="section-title">✨ 遊戲介紹影片</h2>
-      <div class="video-wrapper">
-        <iframe 
-          src="https://www.youtube.com/embed/a5RGjLW0HSM" 
-          title="Cozy Study Corner Trailer" 
-          frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>
-      </div>
-    </div>
-</section>
-  
-  <section id="gallery" class="content-section">
-    <div class="container">
-      <h2 class="section-title">遊戲實機畫面</h2>
-      <div class="gallery-grid">
-        <img src="screenshots/image_4.png" alt="圖書館">
-        <img src="screenshots/image_5.png" alt="游泳池">
-        <img src="screenshots/image_6.png" alt="露營地">
-        <img src="screenshots/image_7.png" alt="小屋">
-        <img src="screenshots/image_8.png" alt="森林">
-        <img src="screenshots/image_9.png" alt="教室">
-        <img src="screenshots/image_10.png" alt="咖啡廳">
-        <img src="screenshots/image_11.png" alt="濫用">
-      </div>
-    </div>
-  </section>
-
-  <section id="download" class="download-section">
-    <div class="container box-shadow">
-      <h2>準備好開始專注了嗎？</h2>
-      <p>Cozy Study Corner 等你加入。</p>
-      
-      <a href="https://github.com/s411287027/Cozy-Study-Corner-Application/releases/latest/download/CozyStudyCorner.zip" class="download-final-btn">
-        📥 下載 Windows 版
-      </a>
-      
-      <div class="tech-stack">
-        <p>Powered by Unity & Firebase</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="music-player">
-    <div class="music-label">🎵 放鬆音樂</div>
-    <audio id="bgm" controls loop>
-      <source src="audio/bgm.mp3" type="audio/mpeg">
-      您的瀏覽器不支援音樂播放。
-    </audio>
-  </div>
-
-  <footer>
-    <p>© 2025 Cozy Study Corner by Team CAT</p>
-  </footer>
 
   <script src="script.js"></script>
 </body>

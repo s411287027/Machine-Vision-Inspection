@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>檢測應用 - 機器視覺檢測</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">機器視覺檢測</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="module.html">取像模組</a></li>
+      <li><a href="processing.html">影像處理</a></li>
+      <li><a href="application.html">檢測應用</a></li>
+      <li class="dropdown">
+        <a href="report.html" class="dropdown-toggle">專題報告 <span>▼</span></a>
+        <ul class="dropdown-menu">
+          <li><a href="report.html#item1">檢測物件</a></li>
+          <li><a href="report.html#item2">檢測方法</a></li>
+          <li><a href="report.html#item3">檢測流程</a></li>
+          <li><a href="report.html#item4">影像處理</a></li>
+          <li><a href="report.html#item5">檢測結果</a></li>
+          <li><a href="report.html#item6">專題應用</a></li>
+          <li><a href="report.html#item7">課程相關</a></li>
+          <li><a href="report.html#item8">心得&貢獻</a></li>
+          <li><a href="report.html#item9">參考資料</a></li>
+          </ul>
+      </li>
+      <li><a href="#search" class="search-icon">🔍</a></li>
+    </ul>
+  </nav>
+
+  <section class="content-section">
+    <div class="container">
+        <h2 class="section-title">機器視覺的產業應用</h2>
+        
+        <div class="tech-grid">
+            <div class="info-card">
+                <h3>AOI 自動光學檢測</h3>
+                <p>在半導體與 PCB 產業中，利用相機高速檢測電路板是否有缺焊、短路或零件偏移，精準度可達微米級。</p>
+            </div>
+            <div class="info-card">
+                <h3>農業與食安檢測</h3>
+                <p>透過顏色與形狀辨識，自動過濾掉變質的果實或瑕疵農產品，實現自動化分級。</p>
+            </div>
+            <div class="info-card">
+                <h3>醫療影像分析</h3>
+                <p>協助醫師分析 X 光、MRI 影像中的異常區塊，提升疾病早期診斷的準確率。</p>
+            </div>
+        </div>
+
+        <div class="info-card" style="background-color: #f8f9fa;">
+            <h3>未來趨勢：AI 與深度學習</h3>
+            <p>傳統視覺（如 OpenCV）擅長規則幾何體偵測；而深度學習（如 YOLO, CNN）則擅長處理複雜背景與變形物體的辨識，兩者正趨於結合。</p>
+        </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

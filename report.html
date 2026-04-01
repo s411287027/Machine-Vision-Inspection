@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>專題報告 - 機器視覺檢測</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">機器視覺檢測</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="module.html">取像模組</a></li>
+      <li><a href="processing.html">影像處理</a></li>
+      <li><a href="application.html">檢測應用</a></li>
+      <li class="dropdown">
+        <a href="report.html" class="dropdown-toggle">專題報告 <span>▼</span></a>
+        <ul class="dropdown-menu">
+          <li><a href="report.html#item1">檢測物件</a></li>
+          <li><a href="report.html#item2">檢測方法</a></li>
+          <li><a href="report.html#item3">檢測流程</a></li>
+          <li><a href="report.html#item4">影像處理</a></li>
+          <li><a href="report.html#item5">檢測結果</a></li>
+          <li><a href="report.html#item6">專題應用</a></li>
+          <li><a href="report.html#item7">課程相關</a></li>
+          <li><a href="report.html#item8">心得&貢獻</a></li>
+          <li><a href="report.html#item9">參考資料</a></li>
+          </ul>
+      </li>
+      <li><a href="#search" class="search-icon">🔍</a></li>
+    </ul>
+  </nav>
+
+  <section class="content-section" style="margin-top: 40px;">
+    <div class="container">
+        <h1 class="section-title">專題報告：基於機器視覺之即時骰子辨識系統</h1>
+        
+        <div id="item1" class="info-card">
+            <h3>1. 檢測物件 (Item 1)</h3>
+            <p>本專案致力於實現一個<strong>低延遲、高穩定性</strong>的即時骰子點數統計系統。系統的眼睛是一顆標準的攝像頭，目標物則是市面上常見的六面骰子。</p>
+            <div class="diagram-container">
+                <img src="images/dice_target.png" alt="Target Objects: Standard Dice" class="target-dice-img">
+                <div class="diagram-caption">圖 1-1：檢測目標 - 具有點數組合的標準骰子</div>
+            </div>
+            <ul>
+                <li><strong>物理環境</strong>：系統要求骰子必須放置於畫面中央的<strong>黃色 ROI（Region of Interest）</strong>區域內（300x300 像素），以確保骰子能佔據足夠的像素面積，提高辨識準確率。</li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <div id="item2" class="info-card">
+            <h3>2. 檢測方法 (Item 2)</h3>
+            <p>本專案純粹使用<strong>OpenCV（Python）</strong>的形態學與幾何特徵分析技術，未引入複雜的深度學習模型，以達到在低運算資源設備上（如老舊平板、行動裝置）也能流暢執行的目的。</p>
+            <div class="diagram-container">
+                <img src="images/method_diagram.png" alt="Methodology Diagram">
+                <div class="diagram-caption">圖 2-1：核心方法論 - 從像素到特徵</div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div id="item3" class="info-card">
+            <h3>3. 檢測流程 (Item 3)</h3>
+            <p>影像處理的核心 Pipeline 如下，我們展示了從原始畫面到二值化後的特徵分離過程：</p>
+            
+            <div class="process-grid">
+                <div class="process-step">
+                    <img src="images/step1_grayscale.png" alt="Grayscale Image">
+                    <strong>1. 灰階化 (Grayscale)</strong>
+                    <p>去除顏色資訊，只保留亮度，降低數據量。</p>
+                </div>
+                <div class="process-step">
+                    <img src="images/step2_blurred.png" alt="Gaussian Blurred Image">
+                    <strong>2. 模糊 (Blurred)</strong>
+                    <p>使用 7x7 高斯核去噪，消除骰子表面的微小雜點。</p>
+                </div>
+                <div class="process-step">
+                    <img src="images/step3_thresh.png" alt="Adaptive Threshold Image">
+                    <strong>3. 二值化 (Threshold)</strong>
+                    <p>反轉黑白影像，點數與邊界變為白色，背景變黑色。</p>
+                </div>
+            </div>
+            <p>在二值化後，程式碼會執行 <code>cv2.findContours</code>，將這些白色區塊提取為數學輪廓。</p>
+        </div>
+
+        <hr>
+
+        <div id="item4" class="info-card">
+            <h3>4. 影像處理關鍵技術 (Item 4)</h3>
+            <p>此專案中最關鍵的兩個技術突破點：</p>
+            
+            <div class="tech-grid">
+                <div>
+                    <strong>技術一：圓度過濾 (Circularity)</strong>
+                    <p>為了精準區分「骰子本體（正方形）」與「點數（圓形）」，系統計算輪廓的圓度：</p>
+                    <div class="diagram-container">
+                        <img src="images/circularity_filter.png" alt="Circularity Filter Illustration">
+                        <div class="diagram-caption">圖 4-1：幾何篩選 - 當圓度 > 0.45 才判定為點數</div>
+                    </div>
+                </div>
+                <div>
+                    <strong>技術二：層級分析 (Hierarchy)</strong>
+                    <p>利用 <code>cv2.RETR_TREE</code> 模式，系統會建立一個輪廓樹。如果一個白色區塊（點數）的父輪廓被判定為「骰子」，則該區塊的點數統計才成立。</p>
+                    <div class="diagram-container">
+                        <img src="images/hierarchy_illustration.png" alt="Hierarchy Analysis: Parent and Child">
+                        <div class="diagram-caption">圖 4-2：層級關係 - 綠色（子倫廓）位於藍色（父倫廓）內部</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div id="item5" class="info-card">
+            <h3>5. 檢測結果 (Item 5)</h3>
+            <p>系統成功達成即時多目標偵測，不僅能準確計算單顆骰子，更能即時累加總點數。下方展示了系統在實際運作時的畫面反饋：</p>
+            <div class="diagram-container">
+                <img src="images/final_result.png" alt="Final Dice Detection Result with Annotations">
+                <div class="diagram-caption">圖 5-1：實時檢測畫面 - 包含藍框、綠色點數填充、紅色數字統計</div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div id="item6" class="info-card">
+            <h3>6. 專題應用與挑戰 (Item 6)</h3>
+            <p>本專題的演算法可延伸至工業上的圓孔品管檢測。在開發過程中，最大的技術難題在於：</p>
+            <ul>
+                <li><strong>光影與陰影</strong>：當光線從側面打過來，骰子邊緣會產生深色陰影，二值化後常會被誤判為額外的點數。</li>
+                <li><strong>解決方案</strong>：動態調整 <code>cv2.adaptiveThreshold</code> 中的 C 值（常數），以及設定 <code>MAX_PIP_AREA</code> 為骰子本體面積的 1/20，成功排除了過大的陰影噪點。</li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <div id="item8" class="info-card" style="border-left: 5px solid #28a745; background-color: #f0fff0;">
+            <h3>8. 心得與貢獻 (Item 8)</h3>
+            <p>從這個專案中，我學習到除了理論上的演算法外，實際硬體環境的架設（光線、角度）同樣關鍵。貢獻在於開發了一個輕量化、低負載的視覺偵測核心，並成功結合前端網頁技術進行展示。</p>
+        </div>
+
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
