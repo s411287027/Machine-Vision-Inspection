@@ -6,16 +6,22 @@
   <title>取像模組 - 機器視覺檢測</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* 這裡加入一些額外的內聯樣式以確保擴充內容的美觀 */
+    .feature-table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; }
+    .feature-table th, .feature-table td { border: 1px solid #e0e0e0; padding: 12px; text-align: left; }
+    .feature-table th { background-color: #f8f9fa; color: #333; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .highlight-box { padding: 15px; border-radius: 8px; margin-top: 10px; }
+    .bg-blue { background-color: #f0f7ff; border-left: 4px solid #007bff; }
+    .bg-red { background-color: #fff0f0; border-left: 4px solid #dc3545; }
+    @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
 
   <nav class="navbar">
     <div class="logo">機器視覺檢測</div>
-    <div class="hamburger" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">首頁</a></li>
       <li><a href="module.html">取像模組</a></li>
@@ -33,9 +39,8 @@
           <li><a href="report.html#item7">課程相關</a></li>
           <li><a href="report.html#item8">心得&貢獻</a></li>
           <li><a href="report.html#item9">參考資料</a></li>
-          </ul>
+        </ul>
       </li>
-      <li><a href="#search" class="search-icon">🔍</a></li>
     </ul>
   </nav>
 
@@ -44,33 +49,30 @@
         <div class="module-hero-card">
           <div class="module-hero-bg-dots"></div>
             <div class="container relative-z">
-              
               <nav class="breadcrumb">
                   <a>首頁</a> <span class="divider">/</span> <span class="current">取像模組</span>
               </nav>
-
               <div class="module-hero-content">
                   <div class="hero-text-area">
-                      <div class="tech-tag">Hardware Knowledge</div>
-                      <h1 class="page-title">取像模組：<span class="gradient-text">硬體架構與照明</span></h1>
+                      <div class="tech-tag">Hardware Architecture</div>
+                      <h1 class="page-title">取像模組：<span class="gradient-text">光學設計與硬體架構</span></h1>
                       <p class="page-subtitle">
-                          深入探討機器視覺的「眼睛」—— 整合工業相機、光學鏡頭與照明系統的黃金三角，為後端算法提供高品質的原始數據。
+                          機器視覺的品質取決於原始影像。透過工業相機、精密鏡頭與光譜控制的整合，我們能鎖定關鍵特徵並消除環境干擾。
                       </p>
                   </div>
-
                   <div class="hero-stats-area">
                       <div class="stat-mini-card">
                           <div class="stat-icon">📷</div>
                           <div class="stat-info">
-                              <span class="stat-value">3 大核心</span>
-                              <span class="stat-label">硬體元件組成</span>
+                              <span class="stat-value">數位成像</span>
+                              <span class="stat-label">感測器與快門原理</span>
                           </div>
                       </div>
                       <div class="stat-mini-card">
-                          <div class="stat-icon">💡</div>
+                          <div class="stat-icon">🔍</div>
                           <div class="stat-info">
-                              <span class="stat-value">光學原理</span>
-                              <span class="stat-label">照明與數位化理論</span>
+                              <span class="stat-value">光學控制</span>
+                              <span class="stat-label">遠心鏡頭與打光幾何</span>
                           </div>
                       </div>
                   </div>
@@ -79,110 +81,94 @@
         </div>
 
         <div class="info-card">
-            <h3>一、工業相機 (Industrial Cameras)</h3>
-            <p>工業相機是將光學訊號轉換為數位訊號的核心元件，其穩定性、幀率與感光能力遠高於一般消費型相機。選用時需考量以下關鍵規格：</p>
+            <h3>一、工業相機進階：感測與快門原理</h3>
+            <p>工業相機不只是拍照，更需確保數據的線性與同步。根據感光元件與快門方式，成像品質會有顯著差異。</p>
             
-            <div style="margin-bottom: 30px;">
-                <strong>1. 感測器技術 (Sensor Type)</strong>
-                <ul>
-                    <li><strong>CCD：</strong>影像均勻性佳、低雜訊、色彩還原度高。</li>
-                    <li><strong>CMOS：</strong>數據讀出速度快、功耗低、製程成本較低，為目前市場主流。</li>
-                </ul>
-                <div class="diagram-container" style="padding: 10px; margin-top: 15px;">
-                    <img src="images/ph_ccd_cmos.png" alt="[預留圖片：CCD 與 CMOS 感測器結構對比]" style="width: 100%; max-width: 600px; border: 1px dashed #ccc;">
-                    <div class="diagram-caption" style="font-size: 0.8rem;">圖 1-1：CCD 與 CMOS 感測器架構差異</div>
+            <div class="grid-2">
+                <div>
+                    <strong>1. 全域快門 vs. 捲簾快門</strong>
+                    <ul>
+                        <li><strong>Global Shutter：</strong> 全像素同時曝光。捕捉高速運動物體時不產生畸變，為工業檢測主流。</li>
+                        <li><strong>Rolling Shutter：</strong> 逐行曝光。物體運動時會產生斜向變形（果凍效應），適合靜態高解析檢測。</li>
+                    </ul>
                 </div>
-            </div>
-
-            <div style="margin-bottom: 30px; border-top: 1px dashed #eee; padding-top: 20px;">
-                <strong>2. 快門機制 (Shutter Mechanism)</strong>
-                <ul>
-                    <li><strong>全域快門 (Global Shutter)：</strong>所有像素「同時」曝光，拍攝動體不變形。</li>
-                    <li><strong>滾動快門 (Rolling Shutter)：</strong>像素「逐行」曝光，拍動體易生果凍效應。</li>
-                </ul>
-                <div class="diagram-container" style="padding: 10px; margin-top: 15px;">
-                    <img src="images/ph_shutter.png" alt="[預留圖片：Global Shutter vs Rolling Shutter 拍攝移動物體對比]" style="width: 100%; max-width: 600px; border: 1px dashed #ccc;">
-                    <div class="diagram-caption" style="font-size: 0.8rem;">圖 1-2：全域快門與滾動快門之動態取像差異</div>
-                </div>
-            </div>
-
-            <div style="border-top: 1px dashed #eee; padding-top: 20px;">
-                <strong>3. 掃描方式 (Scan Mode)</strong>
-                <p>分為<strong>面掃描 (Area Scan)</strong>（適合靜止或定點取像）與<strong>線掃描 (Line Scan)</strong>（適合連續捲帶、紡織品或圓柱體表面展開檢測）。</p>
-                <div class="diagram-container" style="padding: 10px; margin-top: 15px;">
-                    <img src="images/ph_scan_mode.png" alt="[預留圖片：面掃描與線掃描的工作原理]" style="width: 100%; max-width: 600px; border: 1px dashed #ccc;">
-                    <div class="diagram-caption" style="font-size: 0.8rem;">圖 1-3：面掃描與線掃描應用場景示意</div>
+                <div>
+                    <strong>2. 彩色架構與位元深度</strong>
+                    <ul>
+                        <li><strong>Bayer Pattern：</strong> 透過插值計算色彩，成本適中。</li>
+                        <li><strong>10/12-bit Depth：</strong> 相比普通 8-bit 提供更多灰階層次，有利於極細微瑕疵分析。</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <div class="info-card">
-            <h3>二、光學鏡頭 (Optical Lenses)</h3>
-            <p>鏡頭負責將目標物體的反射光精準聚焦於相機感測器上。不良的鏡頭會導致影像畸變（Distortion）與邊緣模糊。</p>
+            <h3>二、光學鏡頭：精密成像與遠心系統</h3>
+            <div class="formula-card" style="background: #f4f4f4; padding: 15px; border-radius: 8px; margin: 15px 0; border: 1px solid #ddd;">
+                <strong>核心公式：</strong><br>
+                1. 解析度 (Resolution) = Pixel Size / 鏡頭放大倍率<br>
+                2. 景深 (DOF) ≈ 2 × (C × F#) / m² (C為彌散圓，F#為光圈值)
+            </div>
             
-            <div style="margin-bottom: 30px;">
-                <strong>1. 視野與焦距 (FOV & Focal Length)</strong>
-                <p>視野是相機看見的實際物理範圍。焦距大小直接決定 FOV 寬廣度。計算公式：</p>
-                <div class="formula-card" style="padding: 10px; margin: 10px 0; max-width: 400px;">
-                    $$f = \frac{h \times WD}{H + h}$$
+            <p><strong>遠心鏡頭 (Telecentric Lens) 的重要性：</strong></p>
+            <p>在精密量測中，為了消除「近大遠小」的視差誤差，必須使用遠心鏡頭，使其主光線與光軸平行。</p>
+            <table class="feature-table">
+                <thead>
+                    <tr>
+                        <th>鏡頭類型</th>
+                        <th>視差表現</th>
+                        <th>適用場景</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>普通定焦鏡頭</td>
+                        <td>有視差，物體移動時大小會變</td>
+                        <td>一般物件定位、條碼識別</td>
+                    </tr>
+                    <tr>
+                        <td>物方遠心鏡頭</td>
+                        <td>極低視差，物體在景深內大小恆定</td>
+                        <td>螺絲、齒輪、PCB孔徑精密量測</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info-card">
+            <h3>三、照明系統：打光幾何學 (Lighting Geometry)</h3>
+            <p>打光的最高原則：<strong>「增強特徵對比，抑制環境雜訊」</strong>。</p>
+            
+            <div class="grid-2">
+                <div class="highlight-box bg-blue">
+                    <strong>明場照明 (Bright Field)</strong>
+                    <p>光線反射角度進入相機。背景亮、特徵暗。適合檢測低反射表面上的深色汙點或印刷缺損。</p>
                 </div>
-                <div class="diagram-container" style="padding: 10px; margin-top: 15px;">
-                    <img src="images/ph_fov_focal.png" alt="[預留圖片：焦距長短與視野大小的關係圖]" style="width: 100%; max-width: 600px; border: 1px dashed #ccc;">
-                    <div class="diagram-caption" style="font-size: 0.8rem;">圖 2-1：焦距 (f)、工作距離 (WD) 與視野 (FOV) 關係</div>
+                <div class="highlight-box bg-red">
+                    <strong>暗場照明 (Dark Field)</strong>
+                    <p>低角度打光，背景暗、特徵亮。僅有表面突起、凹陷或刮傷會產生折射進入相機，是表面瑕疵檢測的利器。</p>
                 </div>
             </div>
-
-            <div style="margin-bottom: 30px; border-top: 1px dashed #eee; padding-top: 20px;">
-                <strong>2. 景深 (Depth of Field, DOF)</strong>
-                <p>指物體在鏡頭前方能夠保持清晰的「縱深範圍」。光圈越小（F 值越大），景深越深；對於高度落差大的工件需特別注意。</p>
-                <div class="diagram-container" style="padding: 10px; margin-top: 15px;">
-                    <img src="images/ph_dof.png" alt="[預留圖片：大光圈與小光圈的景深對比圖]" style="width: 100%; max-width: 600px; border: 1px dashed #ccc;">
-                    <div class="diagram-caption" style="font-size: 0.8rem;">圖 2-2：光圈大小對景深 (DOF) 的影響</div>
-                </div>
-            </div>
-
-            <div style="border-top: 1px dashed #eee; padding-top: 20px;">
-                <strong>3. 遠心鏡頭 (Telecentric Lens)</strong>
-                <p>一般鏡頭有「近大遠小」的透視現象（視差）。<strong>遠心鏡頭</strong>透過特殊光學設計，只接收平行光，徹底消除透視誤差，是高精度尺寸量測的必備硬體。</p>
-                <div class="diagram-container" style="padding: 10px; margin-top: 15px;">
-                    <img src="images/ph_telecentric.png" alt="[預留圖片：標準鏡頭與遠心鏡頭光路比較]" style="width: 100%; max-width: 600px; border: 1px dashed #ccc;">
-                    <div class="diagram-caption" style="font-size: 0.8rem;">圖 2-3：標準鏡頭（具透視變形）與遠心鏡頭（無透視變形）比較</div>
-                </div>
+            
+            <div style="margin-top: 20px;">
+                <strong>常用光源佈局：</strong>
+                <ul>
+                    <li><strong>同軸光 (Coaxial)：</strong> 光路與相機垂直。消除陰影，適合鏡面、晶圓或玻璃檢測。</li>
+                    <li><strong>環形光 (Ring)：</strong> 360度均勻照射。通用型光源，可減少物件陰影。</li>
+                    <li><strong>背光 (Backlight)：</strong> 由物體後方照射。檢測輪廓、尺寸以及透明件內部的氣泡。</li>
+                </ul>
             </div>
         </div>
 
         <div class="info-card">
-            <h3>三、照明系統設計 (Lighting & Illumination)</h3>
-            <p>光源設計的核心目的在於<strong>「最大化目標特徵與背景的對比度」</strong>，好的打光能解決 80% 的影像處理難題。</p>
-            
-            <div style="margin-bottom: 30px;">
-                <strong>1. 常見照明架構</strong>
-                <ul>
-                    <li><strong>環形光：</strong>正面均勻漫射，消弭陰影。</li>
-                    <li><strong>背光：</strong>產生剪影，適合外觀輪廓檢測。</li>
-                    <li><strong>同軸光：</strong>光線平行視線，專治高反射鏡面。</li>
-                    <li><strong>低角度光：</strong>凸顯表面微小突起或紋理。</li>
-                </ul>
-                <div class="diagram-container" style="padding: 10px; margin-top: 15px;">
-                    <img src="images/ph_light_types.png" alt="[預留圖片：四大打光方式示意圖]" style="width: 100%; max-width: 600px; border: 1px dashed #ccc;">
-                    <div class="diagram-caption" style="font-size: 0.8rem;">圖 3-1：工業視覺經典打光架構</div>
-                </div>
-            </div>
-
-            <div style="border-top: 1px dashed #eee; padding-top: 20px;">
-                <strong>2. 光譜與互補色原理</strong>
-                <p>在黑白相機中，利用色彩互補原理可大幅提升對比度：</p>
-                <ul>
-                    <li><strong>讓目標變白：</strong>使用與目標物<strong>相同</strong>顏色的光。</li>
-                    <li><strong>讓目標變黑：</strong>使用與目標物<strong>互補</strong>顏色的光。</li>
-                </ul>
-                <div class="diagram-container" style="padding: 10px; margin-top: 15px;">
-                    <img src="images/ph_color_wheel.png" alt="[預留圖片：色相環與互補色原理]" style="width: 100%; max-width: 600px; border: 1px dashed #ccc;">
-                    <div class="diagram-caption" style="font-size: 0.8rem;">圖 3-2：色相環與光源顏色選擇原理</div>
-                </div>
-            </div>
+            <h3>四、取像同步與外部觸發 (Triggering)</h3>
+            <p>在自動化生產線上，精準的取像時機是關鍵：</p>
+            <ul>
+                <li><strong>硬體觸發：</strong> 利用光電感測器 (Sensor) 偵測物體，訊號直接驅動相機與閃頻控制器。</li>
+                <li><strong>頻閃控制 (Strobe)：</strong> 使 LED 在曝光瞬間以數倍亮度閃動，可有效凍結高速移動物體的影像。</li>
+                <li><strong>通訊協議：</strong> 透過 GigE Vision 或 USB3 Vision 標準，確保高品質影像傳輸不掉幀。</li>
+            </ul>
         </div>
-
     </div>
   </section>
 

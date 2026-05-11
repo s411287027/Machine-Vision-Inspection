@@ -6,6 +6,13 @@
   <title>檢測應用 - 機器視覺檢測</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .application-header { background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); color: white; padding: 60px 0; text-align: center; border-radius: 15px; margin-bottom: 40px; }
+    .status-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; background: #007bff; color: white; margin-bottom: 10px; }
+    .industry-list { list-style: none; padding: 0; }
+    .industry-list li { padding-left: 20px; position: relative; margin-bottom: 10px; }
+    .industry-list li::before { content: '✓'; position: absolute; left: 0; color: #28a745; font-weight: bold; }
+  </style>
 </head>
 <body>
 
@@ -20,7 +27,7 @@
       <li><a href="index.html">首頁</a></li>
       <li><a href="module.html">取像模組</a></li>
       <li><a href="processing.html">影像處理</a></li>
-      <li><a href="application.html">檢測應用</a></li>
+      <li><a href="application.html" style="color: #ffcc00;">檢測應用</a></li>
       <li class="dropdown">
         <a href="report.html" class="dropdown-toggle">專題報告 <span>▼</span></a>
         <ul class="dropdown-menu">
@@ -33,35 +40,105 @@
           <li><a href="report.html#item7">課程相關</a></li>
           <li><a href="report.html#item8">心得&貢獻</a></li>
           <li><a href="report.html#item9">參考資料</a></li>
-          </ul>
+        </ul>
       </li>
       <li><a href="#search" class="search-icon">🔍</a></li>
     </ul>
   </nav>
 
-  <section class="content-section">
+  <section class="content-section" style="margin-top: 40px;">
     <div class="container">
-        <h2 class="section-title">機器視覺的產業應用</h2>
-        
-        <div class="tech-grid">
-            <div class="info-card">
-                <h3>AOI 自動光學檢測</h3>
-                <p>在半導體與 PCB 產業中，利用相機高速檢測電路板是否有缺焊、短路或零件偏移，精準度可達微米級。</p>
-            </div>
-            <div class="info-card">
-                <h3>農業與食安檢測</h3>
-                <p>透過顏色與形狀辨識，自動過濾掉變質的果實或瑕疵農產品，實現自動化分級。</p>
-            </div>
-            <div class="info-card">
-                <h3>醫療影像分析</h3>
-                <p>協助醫師分析 X 光、MRI 影像中的異常區塊，提升疾病早期診斷的準確率。</p>
-            </div>
+      
+      <div class="application-header">
+        <h1>機器視覺：從感知到決策</h1>
+        <p>探索 AOI 技術如何從傳統工廠邁向智慧製造與民生應用</p>
+      </div>
+
+      <h2 class="section-title">機器視覺四大核心任務 (Core Tasks)</h2>
+      <div class="tech-grid">
+        <div class="info-card">
+          <div class="status-badge">Verification</div>
+          <h3>一、驗證與引導</h3>
+          <p>保證製程成功執行。機器視覺提供「觸發信號」控制動作。</p>
+          <ul class="industry-list">
+            <li><strong>自動化貼標：</strong> 避免每分鐘 1200 張的高速貼標機產生廢料。</li>
+            <li><strong>機器人手臂引導：</strong> 透過視覺定位，引導手臂精準夾取隨機擺放的工件。</li>
+          </ul>
         </div>
 
-        <div class="info-card" style="background-color: #f8f9fa;">
-            <h3>未來趨勢：AI 與深度學習</h3>
-            <p>傳統視覺（如 OpenCV）擅長規則幾何體偵測；而深度學習（如 YOLO, CNN）則擅長處理複雜背景與變形物體的辨識，兩者正趨於結合。</p>
+        <div class="info-card">
+          <div class="status-badge">Measurement</div>
+          <h3>二、尺寸量測</h3>
+          <p>以影像進行高精度量測。配合<strong>遠心鏡頭</strong>解決視差問題。</p>
+          <ul class="industry-list">
+            <li><strong>幾何運算：</strong> 計算線寬、圓心半徑、兩線距離與角度。</li>
+            <li><strong>微米級檢測：</strong> PCB 板線路寬度、晶圓封裝引腳距離。</li>
+          </ul>
         </div>
+
+        <div class="info-card">
+          <div class="status-badge">Inspection</div>
+          <h3>三、瑕疵檢測</h3>
+          <p>檢測「不想要、形狀未知、位置不定」的異常。最難建立標準的領域。</p>
+          <ul class="industry-list">
+            <li><strong>容器工業：</strong> 玻璃瓶裂痕、瓶內異物碎屑檢測。</li>
+            <li><strong>外觀缺陷：</strong> 面板刮傷、木板坑洞、塑膠件表面污點。</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div class="status-badge">Identification</div>
+          <h3>四、辨識與分類</h3>
+          <p>讀取資訊並進行特徵分析。</p>
+          <ul class="industry-list">
+            <li><strong>圖樣匹配 (Pattern Matching)：</strong> 搜尋基準點 (Fiducial Mark) 進行對位。</li>
+            <li><strong>OCR/OCV：</strong> 讀取製造日期、序號，辨識標記是否模糊。</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 class="section-title">產業實務應用場景</h2>
+      <div class="info-card">
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px; align-items: center;">
+          <div>
+            <h3>線掃描系統應用</h3>
+            <p><strong>(Line Scan Application)</strong></p>
+          </div>
+          <div>
+            <p>當檢測對象為連續性捲帶、大幅面面板或圓柱體旋轉展開時，面掃描相機解析度不足且會產生形狀畸變。此時採用<strong>線掃描相機</strong>（每秒數萬條線），可達成無限長度的影像拼接與高品質成像。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tech-grid">
+        <div class="info-card" style="border-top: 4px solid #28a745;">
+          <h3>半導體與電子業</h3>
+          <p>這是 AOI 最大的市場需求。可能需要多站、多次檢測（漏檢 vs 假警報的權衡）。包含 BGA 封裝檢查、錫膏印刷檢測 (SPI) 等。</p>
+        </div>
+        <div class="info-card" style="border-top: 4px solid #ffc107;">
+          <h3>民生與食安檢測</h3>
+          <p>利用<strong>顏色匹配 (Color Matcher)</strong> 技術。檢測瓶裝液體液位高度、藥錠包裝是否有空格，或農產品的色澤分級。</p>
+        </div>
+      </div>
+
+      <h2 class="section-title">課外擴充：未來演進趨勢</h2>
+      <div class="info-card" style="background-color: #f1f8ff; border: none;">
+        <div class="tech-grid">
+          <div>
+            <h3>1. AI 深度學習結合</h3>
+            <p>傳統 OpenCV 演算法（Rule-based）在處理「紋理複雜」或「高度形變」的物件（如布料皺褶、皮革瑕疵）時效果有限。現今趨勢是利用 CNN 卷積神經網路進行語義分割，提升對非規則瑕疵的判讀率。</p>
+          </div>
+          <div>
+            <h3>2. 2D 轉向 3D 視覺</h3>
+            <p>除了平面座標，三維影貌量測（如結構光投影、Lidar）能獲取深度資訊。應用於零件高度檢測、物流包裹體積計算與自動駕駛的空間感知。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card" style="background: #343a40; color: #fff; text-align: center;">
+        <p><strong>「機器視覺不僅是取代人工檢測，更是為了達到人工無法企及的速度與穩定度。」</strong></p>
+      </div>
+
     </div>
   </section>
 

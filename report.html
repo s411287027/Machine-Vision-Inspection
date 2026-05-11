@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>專題報告 - 機器視覺檢測</title>
+  <title>專題報告 - PCB 瑕疵 AI 檢測系統</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -27,7 +27,7 @@
           <li><a href="report.html#item1">檢測物件</a></li>
           <li><a href="report.html#item2">檢測方法</a></li>
           <li><a href="report.html#item3">檢測流程</a></li>
-          <li><a href="report.html#item4">影像處理</a></li>
+          <li><a href="report.html#item4">資料前處理</a></li>
           <li><a href="report.html#item5">檢測結果</a></li>
           <li><a href="report.html#item6">專題應用</a></li>
           <li><a href="report.html#item7">課程相關</a></li>
@@ -41,17 +41,22 @@
 
   <section class="content-section" style="margin-top: 40px;">
     <div class="container">
-        <h1 class="section-title">專題報告：基於機器視覺之即時骰子辨識系統</h1>
+        <h1 class="section-title">專題報告：基於 YOLO 深度學習之 PCB 瑕疵自動光學檢測 (AOI) 系統</h1>
         
         <div id="item1" class="info-card">
             <h3>1. 檢測物件 (Item 1)</h3>
-            <p>本專案致力於實現一個<strong>低延遲、高穩定性</strong>的即時骰子點數統計系統。系統的眼睛是一顆標準的攝像頭，目標物則是市面上常見的六面骰子。</p>
+            <p>本專案致力於實現一個<strong>高準確率、高泛化能力</strong>的印刷電路板 (PCB) 瑕疵檢測系統。傳統工業生產線中，PCB 裸板檢測往往依賴人工目視或昂貴機台，本系統的目標物件為 <strong>PCB 裸板二值化影像</strong>，並針對工業界常見的六大類致命瑕疵進行精準定位與分類：</p>
             <div class="diagram-container">
-                <img src="images/dice_target.png" alt="Target Objects: Standard Dice" class="target-dice-img">
-                <div class="diagram-caption">圖 1-1：檢測目標 - 具有點數組合的標準骰子</div>
+                <img src="images/pcb_defects_target.png" alt="Target Objects: PCB Defects" class="target-dice-img">
+                <div class="diagram-caption">圖 1-1：檢測目標 - 包含六大類常見 PCB 瑕疵</div>
             </div>
             <ul>
-                <li><strong>物理環境</strong>：系統要求骰子必須放置於畫面中央的<strong>黃色 ROI（Region of Interest）</strong>區域內（300x300 像素），以確保骰子能佔據足夠的像素面積，提高辨識準確率。</li>
+                <li><strong>Open (斷路)</strong>：線路中斷，會導致電流無法導通。</li>
+                <li><strong>Short (短路)</strong>：兩條不該相連的線路發生沾黏。</li>
+                <li><strong>Mousebite (鼠咬)</strong>：線路邊緣呈現不規則缺損，影響阻抗。</li>
+                <li><strong>Spur (毛刺)</strong>：線路邊緣多出的不規則凸起銅渣。</li>
+                <li><strong>Copper (殘銅)</strong>：在不該有銅的基板區域殘留孤立銅塊。</li>
+                <li><strong>Pin-hole (針孔)</strong>：線路中間出現的微小空洞。</li>
             </ul>
         </div>
 
@@ -59,10 +64,14 @@
 
         <div id="item2" class="info-card">
             <h3>2. 檢測方法 (Item 2)</h3>
-            <p>本專案純粹使用<strong>OpenCV（Python）</strong>的形態學與幾何特徵分析技術，未引入複雜的深度學習模型，以達到在低運算資源設備上（如老舊平板、行動裝置）也能流暢執行的目的。</p>
+            <p>本專案經歷了從傳統演算法到深度學習的技術跨越，純粹依賴 AI 特徵學習，取代了僵化的幾何比對：</p>
+            <ul>
+                <li><strong>傳統方法的痛點：</strong> 初期曾嘗試使用 OpenCV 的 Template Matching (影像相減法)。此方法極度依賴測試圖與標準圖的「完美對齊 (Alignment)」，只要些微平移或旋轉就會產生大量紅框誤判，無法適應實際產線的多變環境。</li>
+                <li><strong>導入深度學習 (YOLO 模型)：</strong> 全面導入目前業界最先進的 <strong>YOLOv8 (You Only Look Once)</strong> 物件偵測演算法。AI 不需要「標準無瑕疵圖」作對比，而是透過大量資料學習瑕疵的「特徵與紋理」，具備極高的強健性 (Robustness)。</li>
+            </ul>
             <div class="diagram-container">
-                <img src="images/method_diagram.png" alt="Methodology Diagram">
-                <div class="diagram-caption">圖 2-1：核心方法論 - 從像素到特徵</div>
+                <img src="images/yolo_methodology.png" alt="Methodology: Image Subtraction vs YOLO">
+                <div class="diagram-caption">圖 2-1：核心方法論 - 傳統影像相減法與 YOLO 模型辨識能力之差異</div>
             </div>
         </div>
 
@@ -70,50 +79,41 @@
 
         <div id="item3" class="info-card">
             <h3>3. 檢測流程 (Item 3)</h3>
-            <p>影像處理的核心 Pipeline 如下，我們展示了從原始畫面到二值化後的特徵分離過程：</p>
+            <p>本系統的開發與運作流程分為三個主要階段，涵蓋了完整的 MLOps (機器學習營運) 週期：</p>
             
             <div class="process-grid">
                 <div class="process-step">
-                    <img src="images/step1_grayscale.png" alt="Grayscale Image">
-                    <strong>1. 灰階化 (Grayscale)</strong>
-                    <p>去除顏色資訊，只保留亮度，降低數據量。</p>
+                    <img src="images/step1_data_prep.png" alt="Data Preparation">
+                    <strong>1. 資料建置 (Data Preparation)</strong>
+                    <p>撰寫 Python 腳本匯入多批次測試圖，並將絕對像素座標自動轉換為 YOLO 專用的 0~1 比例標註格式。</p>
                 </div>
                 <div class="process-step">
-                    <img src="images/step2_blurred.png" alt="Gaussian Blurred Image">
-                    <strong>2. 模糊 (Blurred)</strong>
-                    <p>使用 7x7 高斯核去噪，消除骰子表面的微小雜點。</p>
+                    <img src="images/step2_training.png" alt="Model Training">
+                    <strong>2. 模型訓練 (Model Training)</strong>
+                    <p>配置 GPU CUDA 加速環境，選用輕量極速的 YOLOv8n 模型進行遷移學習與權重迭代。</p>
                 </div>
                 <div class="process-step">
-                    <img src="images/step3_thresh.png" alt="Adaptive Threshold Image">
-                    <strong>3. 二值化 (Threshold)</strong>
-                    <p>反轉黑白影像，點數與邊界變為白色，背景變黑色。</p>
+                    <img src="images/step3_inference.png" alt="Real-time Inference">
+                    <strong>3. 即時推論 (Inference)</strong>
+                    <p>載入最佳權重檔 (best.pt)，結合 OpenCV 實現單張靜態圖片檢測與攝影機即時動態追蹤。</p>
                 </div>
             </div>
-            <p>在二值化後，程式碼會執行 <code>cv2.findContours</code>，將這些白色區塊提取為數學輪廓。</p>
         </div>
 
         <hr>
 
         <div id="item4" class="info-card">
-            <h3>4. 影像處理關鍵技術 (Item 4)</h3>
-            <p>此專案中最關鍵的兩個技術突破點：</p>
+            <h3>4. 資料前處理關鍵技術 (Item 4)</h3>
+            <p>在進入深度學習黑盒子之前，資料的質與量決定了 AI 的智商。本專案進行了以下關鍵處理：</p>
             
             <div class="tech-grid">
                 <div>
-                    <strong>技術一：圓度過濾 (Circularity)</strong>
-                    <p>為了精準區分「骰子本體（正方形）」與「點數（圓形）」，系統計算輪廓的圓度：</p>
-                    <div class="diagram-container">
-                        <img src="images/circularity_filter.png" alt="Circularity Filter Illustration">
-                        <div class="diagram-caption">圖 4-1：幾何篩選 - 當圓度 > 0.45 才判定為點數</div>
-                    </div>
+                    <strong>技術一：座標系統正規化 (Normalization)</strong>
+                    <p>由於開源資料集的標註格式各異，我們透過程式進行矩陣運算，精確算出每個瑕疵框的長寬與中心點，並將數值壓縮至 <code>0~1</code> 之間，確保 AI 模型在任何解析度下都能通用。</p>
                 </div>
                 <div>
-                    <strong>技術二：層級分析 (Hierarchy)</strong>
-                    <p>利用 <code>cv2.RETR_TREE</code> 模式，系統會建立一個輪廓樹。如果一個白色區塊（點數）的父輪廓被判定為「骰子」，則該區塊的點數統計才成立。</p>
-                    <div class="diagram-container">
-                        <img src="images/hierarchy_illustration.png" alt="Hierarchy Analysis: Parent and Child">
-                        <div class="diagram-caption">圖 4-2：層級關係 - 綠色（子倫廓）位於藍色（父倫廓）內部</div>
-                    </div>
+                    <strong>技術二：多源資料擴增與合併 (Generalization)</strong>
+                    <p>撰寫自動化腳本，將不同資料夾 (如 00041, 12000)、不同批號的影像進行無縫合併與 8:2 隨機切分。這種資料泛化策略，大幅提升了模型面對未知 PCB 型號時的適應力。</p>
                 </div>
             </div>
         </div>
@@ -122,21 +122,26 @@
 
         <div id="item5" class="info-card">
             <h3>5. 檢測結果 (Item 5)</h3>
-            <p>系統成功達成即時多目標偵測，不僅能準確計算單顆骰子，更能即時累加總點數。下方展示了系統在實際運作時的畫面反饋：</p>
+            <p>系統成功達成即時多目標偵測，不僅能同時標示多種類別的瑕疵，更達到極高的推論速度：</p>
             <div class="diagram-container">
-                <img src="images/final_result.png" alt="Final Dice Detection Result with Annotations">
-                <div class="diagram-caption">圖 5-1：實時檢測畫面 - 包含藍框、綠色點數填充、紅色數字統計</div>
+                <img src="images/yolo_inference_result.png" alt="YOLO Inference Result with Bounding Boxes">
+                <div class="diagram-caption">圖 5-1：實時檢測畫面 - 系統精準框出短路與斷路，並附帶信心指數</div>
             </div>
+            <ul>
+                <li><strong>高精準度</strong>：每個瑕疵皆以專屬顏色的 Bounding Box 框起，有效降低誤報率。</li>
+                <li><strong>極速推論</strong>：受惠於 YOLO 架構特性與 GPU 運算，單張圖片推論時間壓縮至數毫秒 (ms) 級別，具備取代傳統慢速 AOI 機台的潛力。</li>
+            </ul>
         </div>
 
         <hr>
 
         <div id="item6" class="info-card">
             <h3>6. 專題應用與挑戰 (Item 6)</h3>
-            <p>本專題的演算法可延伸至工業上的圓孔品管檢測。在開發過程中，最大的技術難題在於：</p>
+            <p>本系統具備高度的彈性與落地價值，應用場景與克服的挑戰包含：</p>
             <ul>
-                <li><strong>光影與陰影</strong>：當光線從側面打過來，骰子邊緣會產生深色陰影，二值化後常會被誤判為額外的點數。</li>
-                <li><strong>解決方案</strong>：動態調整 <code>cv2.adaptiveThreshold</code> 中的 C 值（常數），以及設定 <code>MAX_PIP_AREA</code> 為骰子本體面積的 1/20，成功排除了過大的陰影噪點。</li>
+                <li><strong>低成本智造升級</strong>：傳統工廠不需斥資千萬購買大型設備，只需將本 AI 模型部署於一般工業電腦即可升級智慧產線。</li>
+                <li><strong>跨裝置虛實整合</strong>：專案成功將 AI 模型與 <strong>iVcam 虛擬攝影機</strong> 技術結合。將手機化身為「即時檢測眼」，對準電路板即可由電腦端實時追蹤瑕疵，實現高度便攜的行動檢測方案。</li>
+                <li><strong>技術克服</strong>：成功排除了 Windows 環境下多核心運算 (Multiprocessing) 的 <code>RuntimeError</code> 崩潰問題，完善了本機端的 AI 訓練環境。</li>
             </ul>
         </div>
 
@@ -144,7 +149,7 @@
 
         <div id="item8" class="info-card" style="border-left: 5px solid #28a745; background-color: #f0fff0;">
             <h3>8. 心得與貢獻 (Item 8)</h3>
-            <p>從這個專案中，我學習到除了理論上的演算法外，實際硬體環境的架設（光線、角度）同樣關鍵。貢獻在於開發了一個輕量化、低負載的視覺偵測核心，並成功結合前端網頁技術進行展示。</p>
+            <p>從這個專案中，我經歷了從「傳統影像處理」撞牆，進而勇敢跨入「深度學習領域」的轉變。最大的貢獻在於從零建置了資料清洗、模型訓練、GPU 加速到終端推論的完整 AI MLOps 流程，並成功將軟體演算法連結至手機攝影機硬體，做出能真正動態展示的智慧檢測系統，深刻體會到 AI 落地應用的巨大潛力。</p>
         </div>
 
     </div>

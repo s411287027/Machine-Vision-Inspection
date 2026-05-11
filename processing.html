@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>影像處理 - 機器視覺檢測</title>
+  <title>影像處理 - 機器視覺檢測專業版</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .math-font { font-style: italic; color: #2c3e50; background: #fdf2f2; padding: 2px 5px; }
+    .pipeline-step { border: 2px solid var(--primary-blue); border-radius: 10px; padding: 15px; margin-bottom: 15px; position: relative; }
+    .pipeline-step::after { content: '▼'; position: absolute; bottom: -20px; left: 50%; color: #ccc; }
+    .pipeline-step:last-child::after { content: ''; }
+  </style>
 </head>
 <body>
-
   <nav class="navbar">
     <div class="logo">機器視覺檢測</div>
-    <div class="hamburger" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <ul class="nav-links" id="navLinks">
+    <ul class="nav-links">
       <li><a href="index.html">首頁</a></li>
       <li><a href="module.html">取像模組</a></li>
       <li><a href="processing.html">影像處理</a></li>
@@ -33,56 +32,54 @@
           <li><a href="report.html#item7">課程相關</a></li>
           <li><a href="report.html#item8">心得&貢獻</a></li>
           <li><a href="report.html#item9">參考資料</a></li>
-          </ul>
+        </ul>
       </li>
-      <li><a href="#search" class="search-icon">🔍</a></li>
     </ul>
   </nav>
 
-  <section class="content-section" style="margin-top: 40px;">
+  <section class="content-section" style="margin-top: 60px;">
     <div class="container">
-        <h2 class="section-title">核心影像處理演算法</h2>
-        
-        <div class="info-card">
-            <h3>一、影像數位化與預處理</h3>
-            <p>機器視覺系統首先將類比影像轉化為數位矩陣。透過分析<strong>灰階直方圖 (Histogram)</strong>，我們可以了解影像亮度的分佈，作為後續設定二值化門檻的依據。常見的預處理包含：</p>
-            <ul>
-                <li><strong>平滑濾波：</strong>如高斯濾波，用於減少影像高頻雜訊。</li>
-                <li><strong>中值濾波：</strong>有效去除胡椒鹽 (Salt-and-Pepper) 雜訊，且能保護邊緣。</li>
-            </ul>
-        </div>
+      <h1 class="page-title">核心演算法：<span class="gradient-text">空間濾波與特徵提取</span></h1>
 
-        <div class="info-card" style="border-left: 5px solid #007bff; background-color: #f0f8ff;">
-            <h3>二、專題實務：骰子特徵提取 Pipeline</h3>
-            <p>在骰子辨識專案中，每一幀影像都經過以下嚴謹的處理階段：</p>
-            
-            <div class="tech-grid">
-                <div>
-                    <strong>1. 灰階與高斯模糊</strong>
-                    <p>使用 <code>cv2.cvtColor</code> 轉為灰階，並套用 <code>(5, 5)</code> 的高斯模糊核，消除骰子表面的微小雜點。</p>
-                </div>
-                <div>
-                    <strong>2. 自適應二值化</strong>
-                    <p>捨棄全域門檻，改用 <code>cv2.adaptiveThreshold</code>。參數設定 <code>BlockSize=35, C=5</code>，完美克服了骰子左右兩側受光不均的陰影問題。</p>
-                </div>
-                <div>
-                    <strong>3. 輪廓層級分析</strong>
-                    <p>利用 <code>cv2.RETR_TREE</code> 建立父子樹狀結構。系統能精準識別出「點數輪廓（子）」是包覆在「骰子邊界（父）」之內。</p>
-                </div>
-            </div>
-        </div>
+      <div class="info-card">
+        <h3>一、影像增強與預處理</h3>
+        <p>影像處理第一步是優化直方圖分佈並去除雜訊。</p>
+        <ul>
+            <li><strong>直方圖均衡化 (Histogram Equalization)：</strong> 重新分配灰階，提升低對比影像的清晰度。</li>
+            <li><strong>平滑濾波 (Smoothing)：</strong> 
+                <ul>
+                    <li>均值濾波：區域平均，會模糊邊緣。</li>
+                    <li>高斯濾波：權重由中心遞減，較能保留邊緣細節。</li>
+                </ul>
+            </li>
+            <li><strong>中值濾波 (Median)：</strong> 非線性濾波，去除 <span class="highlight-text">胡椒鹽雜訊</span> 的最強利器。</li>
+        </ul>
+      </div>
 
-        <div class="info-card">
-            <h3>三、形態學與幾何特徵過濾</h3>
-            <p>為了排除背景雜訊被誤判為骰子點數，專案導入了<strong>圓度 (Circularity)</strong> 過濾技術：</p>
-            <div class="formula-card">
-                $$Circularity = \frac{4\pi \times Area}{Perimeter^2}$$
-            </div>
-            <p>在程式碼實作中，當輪廓圓度 <strong>> 0.45</strong> 時，系統才會將其確認為有效的圓形點數特徵。</p>
+      <div class="info-card">
+        <h3>二、邊緣偵測與銳化 (Edge & Sharpening)</h3>
+        <p>利用導數運算尋找灰階突變處。</p>
+        <div style="background: #fff; padding: 15px; border: 1px solid #ddd;">
+            <strong>1. 一階導數 (Sobel)：</strong> 計算像素梯度，適合檢測邊緣輪廓。運算公式：<span class="math-font">M ≈ |Gx| + |Gy|</span>。<br><br>
+            <strong>2. 二階導數 (Laplacian)：</strong> 拉普拉斯濾波器對灰階變化極其敏感，用於增強影像中的細微線條。
         </div>
+      </div>
+
+      <div class="info-card">
+        <h3>三、形態學與 Blob 分析</h3>
+        <p>專案實務中，我們透過二值化與特徵過濾提取「骰子點數」。</p>
+        <div class="pipeline-step"><strong>1. 二值化 (Binarization)：</strong> 將目標 (Object) 與背景 (Background) 分離。</div>
+        <div class="pipeline-step"><strong>2. 開運算 (Opening)：</strong> 先侵蝕後擴張，平滑輪廓並斷開細小連接。</div>
+        <div class="pipeline-step"><strong>3. Blob 特徵過濾：</strong> 
+            利用 <span class="math-font">圓度 (Circularity) = 4π * Area / Perimeter²</span> 排除雜訊。
+        </div>
+      </div>
+      
+      <div class="info-card" style="background: #fdfdfd; border: 1px dashed #666;">
+        <h3>※ 專業筆記：為什麼過曝救不回來？</h3>
+        <p>在取像參數選用中，亮度不足可透過 Gain (增益) 補償，但亮度過飽和 (Saturation) 會導致灰階資訊遺失，屬於不可逆損壞。因此應優先調整曝光時間，確保直方圖分佈不堆積在最右側 (255)。</p>
+      </div>
     </div>
-</section>
-
-  <script src="script.js"></script>
+  </section>
 </body>
 </html>
