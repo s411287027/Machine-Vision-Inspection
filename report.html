@@ -22,7 +22,7 @@
       <li><a href="processing.html">影像處理</a></li>
       <li><a href="application.html">檢測應用</a></li>
       <li class="dropdown">
-        <a href="report.html" class="dropdown-toggle">專題報告 <span>▼</span></a>
+        <a href="report.html" class="dropdown-toggle active-link">專題報告 <span>▼</span></a>
         <ul class="dropdown-menu">
           <li><a href="report.html#item1">檢測物件</a></li>
           <li><a href="report.html#item2">檢測方法</a></li>
@@ -30,33 +30,31 @@
           <li><a href="report.html#item4">資料前處理</a></li>
           <li><a href="report.html#item5">檢測結果</a></li>
           <li><a href="report.html#item6">專題應用</a></li>
-          <li><a href="report.html#item7">課程相關</a></li>
           <li><a href="report.html#item8">心得&貢獻</a></li>
-          <li><a href="report.html#item9">參考資料</a></li>
-          </ul>
+        </ul>
       </li>
       <li><a href="#search" class="search-icon">🔍</a></li>
     </ul>
   </nav>
 
-  <section class="content-section" style="margin-top: 40px;">
+  <section class="content-section mt-40">
     <div class="container">
         <h1 class="section-title">專題報告：基於 YOLO 深度學習之 PCB 瑕疵自動光學檢測 (AOI) 系統</h1>
         
         <div id="item1" class="info-card">
             <h3>1. 檢測物件 (Item 1)</h3>
-            <p>本專案致力於實現一個<strong>高準確率、高泛化能力</strong>的印刷電路板 (PCB) 瑕疵檢測系統。傳統工業生產線中，PCB 裸板檢測往往依賴人工目視或昂貴機台，本系統的目標物件為 <strong>PCB 裸板二值化影像</strong>，並針對工業界常見的六大類致命瑕疵進行精準定位與分類：</p>
+            <p>本專案致力於實現一個<strong>高準確率、高泛化能力</strong>的印刷電路板 (PCB) 瑕疵檢測系統。傳統工業生產線中，PCB 裸板檢測往往依賴人工目視或昂貴機台。本系統的目標物件為 <strong>PCB 裸板二值化影像</strong>，並針對工業界常見的六大類致命瑕疵進行精準定位與分類：</p>
             <div class="diagram-container">
-                <img src="images/pcb_defects_target.png" alt="Target Objects: PCB Defects" class="target-dice-img">
+                <img src="images/pcb_defects_target.jpg" alt="Target Objects: PCB Defects" class="target-dice-img">
                 <div class="diagram-caption">圖 1-1：檢測目標 - 包含六大類常見 PCB 瑕疵</div>
             </div>
             <ul>
-                <li><strong>Open (斷路)</strong>：線路中斷，會導致電流無法導通。</li>
-                <li><strong>Short (短路)</strong>：兩條不該相連的線路發生沾黏。</li>
-                <li><strong>Mousebite (鼠咬)</strong>：線路邊緣呈現不規則缺損，影響阻抗。</li>
-                <li><strong>Spur (毛刺)</strong>：線路邊緣多出的不規則凸起銅渣。</li>
-                <li><strong>Copper (殘銅)</strong>：在不該有銅的基板區域殘留孤立銅塊。</li>
-                <li><strong>Pin-hole (針孔)</strong>：線路中間出現的微小空洞。</li>
+                <li><strong>Open (斷路)</strong>：線路中斷，會導致電流無法導通，屬於重大功能性缺失。</li>
+                <li><strong>Short (短路)</strong>：兩條不該相連的線路發生異常沾黏與導通。</li>
+                <li><strong>Mousebite (鼠咬)</strong>：線路邊緣呈現不規則缺損，會造成局部阻抗異常。</li>
+                <li><strong>Spur (毛刺)</strong>：線路邊緣多出的不規則凸起銅渣，易引發訊號干擾。</li>
+                <li><strong>Copper (殘銅)</strong>：在不該有銅的基板絕緣區域殘留了孤立銅塊。</li>
+                <li><strong>Pin-hole (針孔)</strong>：線路中間蝕刻過度出現的微小空洞。</li>
             </ul>
         </div>
 
@@ -66,11 +64,11 @@
             <h3>2. 檢測方法 (Item 2)</h3>
             <p>本專案經歷了從傳統演算法到深度學習的技術跨越，純粹依賴 AI 特徵學習，取代了僵化的幾何比對：</p>
             <ul>
-                <li><strong>傳統方法的痛點：</strong> 初期曾嘗試使用 OpenCV 的 Template Matching (影像相減法)。此方法極度依賴測試圖與標準圖的「完美對齊 (Alignment)」，只要些微平移或旋轉就會產生大量紅框誤判，無法適應實際產線的多變環境。</li>
-                <li><strong>導入深度學習 (YOLO 模型)：</strong> 全面導入目前業界最先進的 <strong>YOLOv8 (You Only Look Once)</strong> 物件偵測演算法。AI 不需要「標準無瑕疵圖」作對比，而是透過大量資料學習瑕疵的「特徵與紋理」，具備極高的強健性 (Robustness)。</li>
+                <li><strong>傳統方法的痛點：</strong> 初期曾嘗試使用 OpenCV 的 Template Matching (影像相減法)。此方法極度依賴測試圖與標準圖的「完美對齊 (Alignment)」，產線物件只要有些微的平移或角度旋轉，相減後就會產生大量紅框誤判，完全無法適應多變的實際工廠環境。</li>
+                <li><strong>導入深度學習 (YOLO 模型)：</strong> 全面導入目前業界先進的 <code>YOLOv8</code> 物件偵測演算法。AI 不需要「標準無瑕疵圖」作強制對比，而是透過卷積層自主學習瑕疵的「局部特徵與幾何紋理」，具備極高的強健性 (Robustness) 與泛化能力。</li>
             </ul>
             <div class="diagram-container">
-                <img src="images/yolo_methodology.png" alt="Methodology: Image Subtraction vs YOLO">
+                <img src="images/yolo_methodology.jpg" alt="Methodology: Image Subtraction vs YOLO">
                 <div class="diagram-caption">圖 2-1：核心方法論 - 傳統影像相減法與 YOLO 模型辨識能力之差異</div>
             </div>
         </div>
@@ -78,24 +76,21 @@
         <hr>
 
         <div id="item3" class="info-card">
-            <h3>3. 檢測流程 (Item 3)</h3>
-            <p>本系統的開發與運作流程分為三個主要階段，涵蓋了完整的 MLOps (機器學習營運) 週期：</p>
+            <h3>3. 檢測流程與硬體架構 (Item 3)</h3>
+            <p>本系統的開發與運作流程分為三個主要階段，建構了完整的 MLOps (機器學習營運) 週期。特別在推論階段，我們打破傳統工業相機的限制，引入虛擬化硬體技術：</p>
             
             <div class="process-grid">
                 <div class="process-step">
-                    <img src="images/step1_data_prep.png" alt="Data Preparation">
                     <strong>1. 資料建置 (Data Preparation)</strong>
-                    <p>撰寫 Python 腳本匯入多批次測試圖，並將絕對像素座標自動轉換為 YOLO 專用的 0~1 比例標註格式。</p>
+                    <p>撰寫 Python 自動化腳本清洗開源資料集，並將絕對像素座標矩陣自動正規化轉換為 YOLO 專用的 0~1 比例標註格式。</p>
                 </div>
                 <div class="process-step">
-                    <img src="images/step2_training.png" alt="Model Training">
                     <strong>2. 模型訓練 (Model Training)</strong>
-                    <p>配置 GPU CUDA 加速環境，選用輕量極速的 YOLOv8n 模型進行遷移學習與權重迭代。</p>
+                    <p>配置 GPU CUDA 加速環境，選用輕量且極速的 YOLOv8n 模型進行權重迭代，持續監控 Loss 收斂狀態以優化模型智商。</p>
                 </div>
                 <div class="process-step">
-                    <img src="images/step3_inference.png" alt="Real-time Inference">
-                    <strong>3. 即時推論 (Inference)</strong>
-                    <p>載入最佳權重檔 (best.pt)，結合 OpenCV 實現單張靜態圖片檢測與攝影機即時動態追蹤。</p>
+                    <strong>3. iVcam 手機實時推論 (Inference)</strong>
+                    <p>載入最佳權重檔 (best.pt)，透過 iVcam 技術將智慧型手機鏡頭虛擬化為系統對外採樣的「行動眼」，利用無線串流進行動態影像擷取與實時邊緣運算推論。</p>
                 </div>
             </div>
         </div>
@@ -104,16 +99,16 @@
 
         <div id="item4" class="info-card">
             <h3>4. 資料前處理關鍵技術 (Item 4)</h3>
-            <p>在進入深度學習黑盒子之前，資料的質與量決定了 AI 的智商。本專案進行了以下關鍵處理：</p>
+            <p>在進入深度學習黑盒子之前，資料的質與量決定了最終推論的成敗。本專案進行了以下關鍵處理：</p>
             
             <div class="tech-grid">
                 <div>
                     <strong>技術一：座標系統正規化 (Normalization)</strong>
-                    <p>由於開源資料集的標註格式各異，我們透過程式進行矩陣運算，精確算出每個瑕疵框的長寬與中心點，並將數值壓縮至 <code>0~1</code> 之間，確保 AI 模型在任何解析度下都能通用。</p>
+                    <p>由於不同攝影源的解析度各異，我們透過矩陣運算精確算出每個瑕疵框的長寬與中心點，並將數值壓縮至 <code>0~1</code> 之間，確保 AI 模型在任何硬體解析度下都能通用。</p>
                 </div>
                 <div>
-                    <strong>技術二：多源資料擴增與合併 (Generalization)</strong>
-                    <p>撰寫自動化腳本，將不同資料夾 (如 00041, 12000)、不同批號的影像進行無縫合併與 8:2 隨機切分。這種資料泛化策略，大幅提升了模型面對未知 PCB 型號時的適應力。</p>
+                    <strong>技術二：資料擴增與變異泛化 (Generalization)</strong>
+                    <p>撰寫腳本將不同批號的影像進行合併，並導入隨機旋轉、亮度偏移與雜訊注入。這種策略刻意引入良性變異，大幅提升了模型面對未知 PCB 型號時的適應冗餘度。</p>
                 </div>
             </div>
         </div>
@@ -122,34 +117,37 @@
 
         <div id="item5" class="info-card">
             <h3>5. 檢測結果 (Item 5)</h3>
-            <p>系統成功達成即時多目標偵測，不僅能同時標示多種類別的瑕疵，更達到極高的推論速度：</p>
+            <p>系統成功達成實時多目標偵測，不僅能同時標示多種類別的瑕疵，更達到極高的推論速度：</p>
             <div class="diagram-container">
-                <img src="images/yolo_inference_result.png" alt="YOLO Inference Result with Bounding Boxes">
+                <img src="images/yolo_inference_result.jpg" alt="YOLO Inference Result with Bounding Boxes">
                 <div class="diagram-caption">圖 5-1：實時檢測畫面 - 系統精準框出短路與斷路，並附帶信心指數</div>
             </div>
             <ul>
-                <li><strong>高精準度</strong>：每個瑕疵皆以專屬顏色的 Bounding Box 框起，有效降低誤報率。</li>
-                <li><strong>極速推論</strong>：受惠於 YOLO 架構特性與 GPU 運算，單張圖片推論時間壓縮至數毫秒 (ms) 級別，具備取代傳統慢速 AOI 機台的潛力。</li>
+                <li><strong>高精準度</strong>：每個瑕疵皆以專屬顏色的 Bounding Box 即時標出，嚴重瑕疵（如短路、斷路）的檢出率表現優異，有效降低工業漏報率。</li>
+                <li><strong>極速推論</strong>：受惠於 YOLO 架構特性與本機 GPU 運算，單幅影像推論時間壓縮至毫秒 (ms) 級別，完全具備取代傳統慢速 AOI 機台的潛力。</li>
             </ul>
         </div>
 
         <hr>
 
         <div id="item6" class="info-card">
-            <h3>6. 專題應用與挑戰 (Item 6)</h3>
-            <p>本系統具備高度的彈性與落地價值，應用場景與克服的挑戰包含：</p>
+            <h3>6. 專題應用與 iVcam 技術克服 (Item 6)</h3>
+            <p>本系統跳脫了傳統大型檢測設備的空間制約，具備高彈性與落地價值。其實務應用與核心技術排錯包含：</p>
             <ul>
-                <li><strong>低成本智造升級</strong>：傳統工廠不需斥資千萬購買大型設備，只需將本 AI 模型部署於一般工業電腦即可升級智慧產線。</li>
-                <li><strong>跨裝置虛實整合</strong>：專案成功將 AI 模型與 <strong>iVcam 虛擬攝影機</strong> 技術結合。將手機化身為「即時檢測眼」，對準電路板即可由電腦端實時追蹤瑕疵，實現高度便攜的行動檢測方案。</li>
-                <li><strong>技術克服</strong>：成功排除了 Windows 環境下多核心運算 (Multiprocessing) 的 <code>RuntimeError</code> 崩潰問題，完善了本機端的 AI 訓練環境。</li>
+                <li><strong>低成本智造：手機化身行動檢測眼</strong><br>
+                傳統工廠升級自動化需採購昂貴的工業相機。本專案創新地導入 <strong>iVcam 虛擬攝影機技術</strong>，成功將手持智慧型手機的鏡頭，經由 Wi-Fi 網路或高速 USB 傳輸線，無縫映射為後端 C++ / Python OpenCV 程式碼中的 <code>cv::VideoCapture</code> 標準視訊源。這讓品管人員能直接拿著手機對準固定於大型設備內部的 PCB 電路板進行彈性巡檢，實現了高度便攜的行動檢測方案。</li>
+                <li><strong>雙執行緒優化串流延遲</strong><br>
+                在利用 iVcam 傳輸高解析度 (1080p) 的實時畫面時，頻寬波動曾導致推論影像出現局部變形與時間滯後。為此，專案優化了軟體架構，在後端配置雙執行緒管線：一個執行緒專職以最高幀率向 iVcam 緩衝區抓取即時影像流，另一個執行緒則專注於 YOLO 矩陣推論與繪製 Bounding Box，成功將動態檢測延遲降至肉眼不可察的範圍，確保影像流暢不掉幀。</li>
+                <li><strong>多核心運算崩潰排除</strong><br>
+                在 Windows 本機環境下結合 iVcam 視訊源進行實時 AI 訓練與推論時，曾遭遇多核心並行運算 (Multiprocessing) 的 <code>RuntimeError</code> 系統崩潰。專案透過重構程式架構，在程式入口處強制實施 <code>if __name__ == '__main__':</code> 保護機制，並妥善管理資料流的互斥鎖 (Mutex)，徹底完善了本機端的穩定執行環境。</li>
             </ul>
         </div>
 
         <hr>
 
-        <div id="item8" class="info-card" style="border-left: 5px solid #28a745; background-color: #f0fff0;">
-            <h3>8. 心得與貢獻 (Item 8)</h3>
-            <p>從這個專案中，我經歷了從「傳統影像處理」撞牆，進而勇敢跨入「深度學習領域」的轉變。最大的貢獻在於從零建置了資料清洗、模型訓練、GPU 加速到終端推論的完整 AI MLOps 流程，並成功將軟體演算法連結至手機攝影機硬體，做出能真正動態展示的智慧檢測系統，深刻體會到 AI 落地應用的巨大潛力。</p>
+        <div id="item8" class="info-card card-success">
+            <h3>7. 心得與貢獻 (Item 7)</h3>
+            <p>從這個專案中，我經歷了從「傳統影像處理」撞牆，進而勇敢跨入「深度學習領域」的思維轉變。最大的貢獻在於從零建置了資料清洗、模型收斂監控、GPU 加速到終端推論的完整 MLOps 流程，並成功利用 iVcam 技術將 AI 演算法與行動手機硬體串接，做出一套能真正隨手展示、動態追蹤的智慧行動檢測系統，深刻體會到軟體可靠度與實務落地應用的巨大潛力。</p>
         </div>
 
     </div>
